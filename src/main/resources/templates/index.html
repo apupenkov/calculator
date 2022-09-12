@@ -1,0 +1,38 @@
+
+<!-- Этот файл необходимо размещать в папке resources/templates, если есть зависимость spring-boot-starter-thymeleaf
+в pom.xml, если этой зависимости нет, то в resources/static или создать класс конфигурации и указать в нем папку явно-->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="/style/manePage.css">
+</head>
+<body>
+<!--<h1>Здесь вы можете посчитать значение выражения для простого калькулятора</h1>-->
+<div class="picture-container">
+    <div class="main-text-picture">
+        <img class="main-text-picture" th:src="@{/images/pikch0.png}"/>
+        <img class="main-text-picture" th:src="@{/images/pikch1.png}"/>
+        <img class="main-text-picture" th:src="@{/images/pikch2.png}"/>
+        <img class="main-text-picture" th:src="@{/images/pikch3.png}"/>
+    </div>
+</div>
+
+<!--<img th:src="@{/images/butterfly-natural.png}"/>-->
+<div>
+    <div class="form-container">
+        <form class="form-calculation" th:method="POST" th:action="@{/calculate}" th:object="${calculator}">
+            <div class="form-expression">
+                <input type="text" th:field="*{expression}" id="expression" placeholder="Введите выражение"/>
+                <input type="submit" value="Рассчитать">
+            </div>
+            <div class="form-result">
+                <input type="text" th:field="*{result}" id="result" value="" placeholder="Результат"/>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
