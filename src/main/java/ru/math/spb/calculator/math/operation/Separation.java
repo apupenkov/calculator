@@ -29,15 +29,16 @@ final class Separation {
                         && items[i].matches("\\d+"))) {
                     result.addLast(result.removeLast() + items[i]);
                 } else {
-                    if(items[i-1].matches("\\d+(\\.\\d+)?") && items[i].equals("(")) {
-                        result.addLast("*");
-                        result.addLast(items[i]);
-                    }
-                    else if(items[i].equals(")") && items[i+1].matches("\\d+(\\.\\d+)?")) {
-                        result.addLast(items[i]);
-                        result.addLast("*");
-                    } else {
-                        result.addLast(items[i]);
+                    if((i-1) >= 0 && (i+1) < items.length) {
+                        if (items[i - 1].matches("\\d+(\\.\\d+)?") && items[i].equals("(")) {
+                            result.addLast("*");
+                            result.addLast(items[i]);
+                        } else if (items[i].equals(")") && items[i + 1].matches("\\d+(\\.\\d+)?")) {
+                            result.addLast(items[i]);
+                            result.addLast("*");
+                        } else {
+                            result.addLast(items[i]);
+                        }
                     }
                 }
             }

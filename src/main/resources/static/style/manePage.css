@@ -54,7 +54,7 @@ h1 {
 }
 .form-expression {
     margin-top: 20px;
-    color: black;
+    color: white;
     font-style: oblique;
     font-family: Verdana, Geneva, sans-serif;
     margin-bottom: 10px;
@@ -62,13 +62,34 @@ h1 {
 }
 #expression {
     width: 400px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    color: white;
+    font-size: 1.3em;
 }
 #result {
-    width: 490px;
+    width: 550px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    color: white;
+    font-size: 1.3em;
 }
 .form-result {
     color: white;
     font-style: oblique;
     font-family: Verdana, Geneva, sans-serif;
     text-align: center;
+}
+.error-text {
+    margin-top: 20px;
+    margin-left: 23%;
+    margin-right: 20%;
+    text-align: start;
+}
+::placeholder {
+    color: white;
 }

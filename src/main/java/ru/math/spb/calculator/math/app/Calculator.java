@@ -3,12 +3,17 @@ package ru.math.spb.calculator.math.app;
 import ru.math.spb.calculator.math.exception.IncorrectExpressionException;
 import ru.math.spb.calculator.math.operation.Operation;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import static ru.math.spb.calculator.math.operation.Checker.checkInputText;
-import static ru.math.spb.calculator.math.operation.Operation.calculate;
 import static ru.math.spb.calculator.math.operation.Operation.getPolishReverseNotationArray;
 
 public final class Calculator {
 
+    @Size(min=3, message = "Выражение должно содержать больше 3х символов")
+    @Pattern(regexp = "[\\d()/+\\-*.]+", message = "Выражение может содержать только целые числа, " +
+            "числа с плавающей точкой и символы +-*/")
     private String expression;
     private String result;
 
@@ -21,7 +26,7 @@ public final class Calculator {
             result = String.valueOf(Operation.calculate(getPolishReverseNotationArray(expression)));
         } catch (IncorrectExpressionException e) {
 //                log.error(e);
-            System.out.println("Введите корректное выражение:" + e);
+            System.out.println(e.getMessage());
         }
         return result;
     }

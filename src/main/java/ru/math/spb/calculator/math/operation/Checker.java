@@ -2,6 +2,8 @@ package ru.math.spb.calculator.math.operation;
 
 import ru.math.spb.calculator.math.exception.IncorrectExpressionException;
 
+import java.util.regex.Pattern;
+
 import static ru.math.spb.calculator.math.operator.Operator.isOperator;
 
 public final class Checker {
@@ -30,9 +32,9 @@ public final class Checker {
     }
 
     public static void checkInputText(String str) throws IncorrectExpressionException {
-        if(str.matches("[^\\d()/+\\-*^.]+")){
+        if(Pattern.compile("[^\\d()/+\\-*.]+").matcher(str).find()){
             throw new IncorrectExpressionException("Выражение может содержать только целые числа, числа с плавающей" +
-                    " точкой, операторы */+-^");
+                    " точкой, операторы */+-");
         }
     }
 }

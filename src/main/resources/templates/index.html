@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/style/manePage.css">
 </head>
 <body>
-<!--<h1>Здесь вы можете посчитать значение выражения для простого калькулятора</h1>-->
+
 <div class="picture-container">
     <div class="main-text-picture">
         <img class="main-text-picture" th:src="@{/images/pikch0.png}"/>
@@ -20,13 +20,15 @@
     </div>
 </div>
 
-<!--<img th:src="@{/images/butterfly-natural.png}"/>-->
 <div>
     <div class="form-container">
         <form class="form-calculation" th:method="POST" th:action="@{/calculate}" th:object="${calculator}">
             <div class="form-expression">
                 <input type="text" th:field="*{expression}" id="expression" placeholder="Введите выражение"/>
-                <input type="submit" value="Рассчитать">
+                <input type="image" id="submit-picture" th:src="@{/images/calculate.png}" value="Рассчитать">
+                <div class="error-text">
+                    <div style="color: red" th:if="${#fields.hasErrors('expression')}" th:errors="*{expression}"></div>
+                </div>
             </div>
             <div class="form-result">
                 <input type="text" th:field="*{result}" id="result" value="" placeholder="Результат"/>
