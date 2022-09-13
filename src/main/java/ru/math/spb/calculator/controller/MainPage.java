@@ -25,9 +25,6 @@ public class MainPage {
     @PostMapping("/calculate")
     public String calculate(@ModelAttribute("calculator") @Valid Calculator calculator, BindingResult bindingResult) {
         calculator.setResult(calculator.calculate());
-        if(bindingResult.hasErrors()) {
-//            bindingResult.
-        }
         return "index";
     }
 }

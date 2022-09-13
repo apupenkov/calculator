@@ -1,10 +1,15 @@
 package ru.math.spb.calculator.math.app;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.math.spb.calculator.CalculatorApplication;
 import ru.math.spb.calculator.math.exception.IncorrectExpressionException;
 import ru.math.spb.calculator.math.operation.Operation;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import java.util.Arrays;
 
 import static ru.math.spb.calculator.math.operation.Checker.checkInputText;
 import static ru.math.spb.calculator.math.operation.Operation.getPolishReverseNotationArray;
@@ -17,7 +22,7 @@ public final class Calculator {
     private String expression;
     private String result;
 
-//    private static Logger log = LogManager.getLogger(Calculator.class);
+    private static final Logger log = LoggerFactory.getLogger(CalculatorApplication.class);
 
     public String calculate() {
         String result = "";
@@ -25,8 +30,8 @@ public final class Calculator {
             checkInputText(expression);
             result = String.valueOf(Operation.calculate(getPolishReverseNotationArray(expression)));
         } catch (IncorrectExpressionException e) {
-//                log.error(e);
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
+            log.error(Arrays.toString(e.getStackTrace()));
         }
         return result;
     }
