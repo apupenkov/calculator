@@ -1,8 +1,11 @@
 package ru.math.spb.calculator.math.operator;
 
-public final class Operator {
+import org.springframework.stereotype.Component;
 
-    public static int getPriority(String operator) {
+@Component
+public class Operator {
+
+    public int getPriority(String operator) {
         switch (operator) {
             case "*": return 2;
             case "/": return 2;
@@ -12,7 +15,7 @@ public final class Operator {
         return -1;
     }
 
-    public static boolean isOperator(String item){
+    public boolean isOperator(String item){
         return item.equals("(") || item.equals(")") || item.equals("*")
                 || item.equals("/") || item.equals("+") || item.equals("-");
     }

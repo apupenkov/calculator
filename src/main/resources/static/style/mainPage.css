@@ -4,27 +4,12 @@ body {
     /*margin: 0; !* Убираем отступы *!*/
     /*height: 100%; !* Высота страницы *!*/
 }
-h1 {
-    line-height: 1.1;
-    color: white;
-    text-align: center;
-    margin-top: 400px;
-    font-style: oblique;
-    font-family: Verdana, Geneva, sans-serif;
-    font-weight: 600;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    -ms-word-break: break-all;
-    word-break: break-word;
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-    margin-left: 100px;
-    margin-right: 100px;
+.main {
+    margin-top: 30%;
+    margin-bottom: 30%;
 }
 .picture-container {
-    margin-top: 45%;
+    margin: 0 auto;
 }
 .main-text-picture {
     line-height: 1.1;
@@ -32,10 +17,8 @@ h1 {
     text-align: center;
     font-style: oblique;
     font-family: Verdana, Geneva, sans-serif;
-    font-weight: 600;
     overflow-wrap: break-word;
     word-wrap: break-word;
-    -ms-word-break: break-all;
     word-break: break-word;
     -ms-hyphens: auto;
     -moz-hyphens: auto;
@@ -44,14 +27,14 @@ h1 {
     margin: 0 auto;
     position: relative;
 }
-.form-container {
-    height: 500px;
-}
-.form-calculation {
-    width: 900px;
-    height: 100px; /* если высота не будет задана явна, она будет равна 100% */
-    margin: 0 auto;
-}
+/*.form-container {*/
+/*    height: 500px;*/
+/*}*/
+/*.form-calculation {*/
+/*    width: 900px;*/
+/*    height: 100px; !* если высота не будет задана явна, она будет равна 100% *!*/
+/*    margin: 0 auto;*/
+/*}*/
 .form-expression {
     margin-top: 20px;
     color: white;
@@ -92,4 +75,25 @@ h1 {
 }
 ::placeholder {
     color: white;
+}
+.container {
+    width: 100%;
+    top: 0;
+    left: 0;
+    overflow: auto;
+}
+.block {
+    width: 1000px;
+    height: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+.child {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border: none;
 }

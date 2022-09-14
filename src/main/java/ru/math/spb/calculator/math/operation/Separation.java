@@ -1,19 +1,27 @@
 package ru.math.spb.calculator.math.operation;
 
+import org.springframework.stereotype.Component;
 import ru.math.spb.calculator.math.exception.IncorrectExpressionException;
+import ru.math.spb.calculator.math.operator.Operator;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static ru.math.spb.calculator.math.operation.Checker.checkIncorrectString;
-import static ru.math.spb.calculator.math.operator.Operator.isOperator;
+@Component
+public class Separation {
 
-final class Separation {
+    private Checker checker;
+    private Operator operator;
 
-    static ArrayDeque<String> separateOnNumberAndOperator(String str) throws IncorrectExpressionException {
+    public Separation(Checker checker, Operator operator) {
+        this.checker = checker;
+        this.operator = operator;
+    }
+
+    ArrayDeque<String> separateOnNumberAndOperator(String str) throws IncorrectExpressionException {
         String[] items = separateAllSymbolsAndRemoveSpaces(str);
-        checkIncorrectString(items);
+        checker.checkIncorrectString(items);
         ArrayDeque<String> result = new ArrayDeque<>();
         for (int i = 0; i < items.length; i++) {
             if(!items[i].equals(" ")) {
@@ -24,7 +32,7 @@ final class Separation {
                         && !items[i].equals(".")) {
                     result.addLast(items[i]);
                 } else if (items[i].equals(".")
-                        && (result.isEmpty() || !isOperator(result.getLast()))
+                        && (result.isEmpty() || !operator.isOperator(result.getLast()))
                         || ((!result.isEmpty() && result.getLast().matches("\\d+\\."))
                         && items[i].matches("\\d+"))) {
                     result.addLast(result.removeLast() + items[i]);
@@ -46,7 +54,7 @@ final class Separation {
         return result;
     }
 
-    private static String[] separateAllSymbolsAndRemoveSpaces(String str) {
+    private String[] separateAllSymbolsAndRemoveSpaces(String str) {
         return Arrays.stream(str.split(""))
                 .filter(el -> !el.matches("\\s+")).collect(Collectors.toList()).toArray(String[]::new);
     }

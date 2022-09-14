@@ -1,54 +1,34 @@
 package ru.math.spb.calculator.math.app;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import ru.math.spb.calculator.CalculatorApplication;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import ru.math.spb.calculator.math.exception.IncorrectExpressionException;
+import ru.math.spb.calculator.math.operation.Checker;
 import ru.math.spb.calculator.math.operation.Operation;
-
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import java.util.Arrays;
 
-import static ru.math.spb.calculator.math.operation.Checker.checkInputText;
-import static ru.math.spb.calculator.math.operation.Operation.getPolishReverseNotationArray;
+@Slf4j
+@Component
+public class Calculator {
 
-public final class Calculator {
+    private Checker checker;
+    private Operation operation;
 
-    @Size(min=3, message = "Выражение должно содержать больше 3х символов")
-    @Pattern(regexp = "[\\d()/+\\-*.]+", message = "Выражение может содержать только целые числа, " +
-            "числа с плавающей точкой и символы +-*/")
-    private String expression;
-    private String result;
+    public Calculator(Checker checker, Operation operation) {
+        this.checker = checker;
+        this.operation = operation;
+    }
 
-    private static final Logger log = LoggerFactory.getLogger(CalculatorApplication.class);
-
-    public String calculate() {
+    public String calculate(String expression) {
         String result = "";
         try {
-            checkInputText(expression);
-            result = String.valueOf(Operation.calculate(getPolishReverseNotationArray(expression)));
+            checker.checkInputText(expression);
+            result = String.valueOf(operation.calculate(operation.getPolishReverseNotationArray(expression)));
         } catch (IncorrectExpressionException e) {
             log.error(e.getMessage());
             log.error(Arrays.toString(e.getStackTrace()));
         }
         return result;
-    }
-
-    public String getExpression() {
-        return expression;
-    }
-
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
     }
 }
