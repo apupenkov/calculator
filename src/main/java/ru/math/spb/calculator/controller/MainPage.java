@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.math.spb.calculator.math.app.Calculator;
-import ru.math.spb.calculator.model.CalculationEntity;
+import ru.math.spb.calculator.math.exception.IncorrectExpressionException;
+import ru.math.spb.calculator.model.CalculationExpressionEntity;
 
 import javax.validation.Valid;
 
@@ -19,20 +20,15 @@ public class MainPage {
         this.calculator = calculator;
     }
 
-    @GetMapping("/")
-    public String getRoot(@ModelAttribute("calculationEntity") CalculationEntity calculationEntity) {
-        return "index";
-    }
-
-    @GetMapping("/homePage")
-    public String getMainPage(@ModelAttribute("calculationEntity") CalculationEntity calculationEntity) {
+    @GetMapping(value = {"/", "/homePage"})
+    public String getRoot(@ModelAttribute("calculationEntity") CalculationExpressionEntity calculationEntity) {
         return "index";
     }
 
     @PostMapping("/calculate")
-    public String calculate(@ModelAttribute("calculationEntity") @Valid CalculationEntity calculationEntity,
-                            BindingResult bindingResult) {
-        calculationEntity.setResult(calculator.calculate(calculationEntity.getExpression()));
+    public String calculate(@ModelAttribute("calculationEntity") @Valid CalculationExpressionEntity calculationEntity,
+                            BindingResult bindingResult) throws IncorrectExpressionException {
+        calculationEntity.setResult(calculator.calculateAndCheckResult(calculationEntity.getExpression()));
         return "index";
     }
 }

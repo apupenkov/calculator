@@ -1,61 +1,39 @@
 package ru.math.spb.calculator.math.operation;
 
 import org.springframework.stereotype.Component;
-import ru.math.spb.calculator.math.exception.IncorrectExpressionException;
-import ru.math.spb.calculator.math.operator.Operator;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class Separation {
 
-    private Checker checker;
-    private Operator operator;
-
-    public Separation(Checker checker, Operator operator) {
-        this.checker = checker;
-        this.operator = operator;
+    ArrayDeque<String> separateOnNumberAndOperator(String str) {
+        ArrayList<String> result = new ArrayList<>();
+        String patternStr = "((\\d*\\.?\\d+)|([+\\-*/()]))";
+        Pattern pattern = Pattern.compile(patternStr);
+        Matcher m = pattern.matcher(str);
+        while(m.find()) {
+            result.add(m.group());
+        }
+        return addMultiplyOperatorIfNeed(result);
     }
 
-    ArrayDeque<String> separateOnNumberAndOperator(String str) throws IncorrectExpressionException {
-        String[] items = separateAllSymbolsAndRemoveSpaces(str);
-        checker.checkIncorrectString(items);
-        ArrayDeque<String> result = new ArrayDeque<>();
-        for (int i = 0; i < items.length; i++) {
-            if(!items[i].equals(" ")) {
-                if ((items[i].matches("\\d+") && !result.isEmpty()) && result.getLast().matches("\\d+(\\.)?")) {
-                    result.addLast(result.removeLast() + items[i]);
-                } else if (items[i].matches("\\d+")
-                        && (result.isEmpty() || !result.getLast().matches("\\d+\\."))
-                        && !items[i].equals(".")) {
-                    result.addLast(items[i]);
-                } else if (items[i].equals(".")
-                        && (result.isEmpty() || !operator.isOperator(result.getLast()))
-                        || ((!result.isEmpty() && result.getLast().matches("\\d+\\."))
-                        && items[i].matches("\\d+"))) {
-                    result.addLast(result.removeLast() + items[i]);
-                } else {
-                    if((i-1) >= 0 && (i+1) < items.length) {
-                        if (items[i - 1].matches("\\d+(\\.\\d+)?") && items[i].equals("(")) {
-                            result.addLast("*");
-                            result.addLast(items[i]);
-                        } else if (items[i].equals(")") && items[i + 1].matches("\\d+(\\.\\d+)?")) {
-                            result.addLast(items[i]);
-                            result.addLast("*");
-                        } else {
-                            result.addLast(items[i]);
-                        }
-                    }
+    private ArrayDeque<String> addMultiplyOperatorIfNeed(ArrayList<String> arrayDeque) {
+        for (int i = 0; i < arrayDeque.size(); i++) {
+            if((i-1) >= 0 && (i+1) < arrayDeque.size()) {
+                if (arrayDeque.get(i).equals("(")
+                        && Pattern.compile("\\d+(\\.\\d+)?").matcher(arrayDeque.get(i-1)).find()) {
+                    arrayDeque.add(i, "*");
+                }
+                else if(arrayDeque.get(i).equals(")")
+                        && Pattern.compile("\\d+(\\.\\d+)?").matcher(arrayDeque.get(i+1)).find()) {
+                    arrayDeque.add(i+1, "*");
                 }
             }
         }
-        return result;
-    }
-
-    private String[] separateAllSymbolsAndRemoveSpaces(String str) {
-        return Arrays.stream(str.split(""))
-                .filter(el -> !el.matches("\\s+")).collect(Collectors.toList()).toArray(String[]::new);
+        return new ArrayDeque<>(arrayDeque);
     }
 }

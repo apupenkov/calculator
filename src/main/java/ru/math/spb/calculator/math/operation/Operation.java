@@ -7,6 +7,7 @@ import ru.math.spb.calculator.math.operator.Operator;
 import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 @Component
 public class Operation {
@@ -34,6 +35,13 @@ public class Operation {
     public ArrayDeque<String> getPolishReverseNotationArray(String str) throws IncorrectExpressionException {
 
         ArrayDeque<String> arrayDequeSymbols = separation.separateOnNumberAndOperator(str);
+
+        if(Pattern.compile("[^\\d(]+").matcher(arrayDequeSymbols.getFirst()).find()
+            || Pattern.compile("[^\\d)]+").matcher(arrayDequeSymbols.getLast()).find()) {
+            throw new IncorrectExpressionException("Выражение должно начинаться с числа или символа ( и " +
+                    "заканчиваться числом или символом )");
+        }
+
         ArrayDeque<String> reversNotation = new ArrayDeque<>();
         ArrayDeque<String> stackOperators = new ArrayDeque<>();
 
@@ -66,6 +74,11 @@ public class Operation {
             }
         }
         stackOperators.stream().forEach(el -> reversNotation.add(Objects.requireNonNull(stackOperators.pollLast())));
+        for (String el : reversNotation) {
+            if (el.equals("(") || el.equals(")")) {
+                throw new IncorrectExpressionException("Некорректно составленное выражение");
+            }
+        }
         return reversNotation;
     }
 

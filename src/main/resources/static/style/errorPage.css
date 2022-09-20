@@ -11,7 +11,7 @@ body {
     overflow: auto;
 }
 .error-block {
-    width: 400px;
+    width: 600px;
     height: 250px;
     position: absolute;
     top: 0;

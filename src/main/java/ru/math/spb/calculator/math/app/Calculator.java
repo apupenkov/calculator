@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.math.spb.calculator.math.exception.IncorrectExpressionException;
 import ru.math.spb.calculator.math.operation.Checker;
 import ru.math.spb.calculator.math.operation.Operation;
+import ru.math.spb.calculator.model.ExpressionEntity;
 
 import java.util.Arrays;
 
@@ -20,12 +21,19 @@ public class Calculator {
         this.operation = operation;
     }
 
-    public String calculate(String expression) {
+    public String calculate(String expression) throws IncorrectExpressionException, NullPointerException {
+        String result = "";
+        checker.checkIsNull(expression);
+        checker.checkInputText(expression);
+        result = String.valueOf(operation.calculate(operation.getPolishReverseNotationArray(expression)));
+        return result;
+    }
+
+    public String calculateAndCheckResult(String expression) {
         String result = "";
         try {
-            checker.checkInputText(expression);
-            result = String.valueOf(operation.calculate(operation.getPolishReverseNotationArray(expression)));
-        } catch (IncorrectExpressionException e) {
+            result = calculate(expression);
+        } catch (NullPointerException | IncorrectExpressionException e) {
             log.error(e.getMessage());
             log.error(Arrays.toString(e.getStackTrace()));
         }

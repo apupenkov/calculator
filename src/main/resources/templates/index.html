@@ -3,38 +3,38 @@
 в pom.xml, если этой зависимости нет, то в resources/static или создать класс конфигурации и указать в нем папку явно-->
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Calculator</title>
-    <link rel="stylesheet" href="/style/mainPage.css">
-</head>
-<body>
-<div class="main">
-    <div class="picture-container">
-        <div class="main-text-picture">
-            <img class="main-text-picture" th:src="@{/images/mainTextHeader0.png}"/>
-            <img class="main-text-picture" th:src="@{/images/mainTextHeader1.png}"/>
-            <img class="main-text-picture" th:src="@{/images/mainTextHeader2.png}"/>
-            <img class="main-text-picture" th:src="@{/images/mainTextHeader3.png}"/>
+      xmlns:th="http://thymeleaf.org" lang="">
+    <head>
+        <meta charset="UTF-8">
+        <title>Calculator</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/style/mainPage.css}"/>
+    </head>
+    <body>
+    <div class="main">
+        <div class="picture-container">
+            <div class="main-text-picture">
+                <img class="main-text-picture" th:src="@{/images/mainTextHeader0.png}"/>
+                <img class="main-text-picture" th:src="@{/images/mainTextHeader1.png}"/>
+                <img class="main-text-picture" th:src="@{/images/mainTextHeader2.png}"/>
+                <img class="main-text-picture" th:src="@{/images/mainTextHeader3.png}"/>
+            </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="block">
-            <form class="child" th:method="POST" th:action="@{/calculate}" th:object="${calculationEntity}">
-                <div class="form-expression">
-                    <input type="text" th:field="*{expression}" id="expression" placeholder="Введите выражение"/>
-                    <input type="image" id="submit-picture" th:src="@{/images/calculate.png}" value="Рассчитать">
-                    <div class="error-text">
-                        <div style="color: red" th:if="${#fields.hasErrors('expression')}" th:errors="*{expression}"></div>
+        <div class="container">
+            <div class="block">
+                <form class="child" th:method="POST" th:action="@{/calculate}" th:object="${calculationEntity}">
+                    <div class="form-expression">
+                        <input type="text" th:field="*{expression}" id="expression" placeholder="Введите выражение"/>
+                        <input type="image" id="submit-picture" th:src="@{/images/calculate.png}" value="Рассчитать">
+                        <div class="error-text">
+                            <div style="color: red" th:if="${#fields.hasErrors('expression')}" th:errors="*{expression}"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-result">
-                    <input type="text" th:field="*{result}" id="result" value="" placeholder="Результат"/>
-                </div>
-            </form>
+                    <div class="form-result">
+                        <input type="text" th:field="*{result}" id="result" value="" placeholder="Результат"/>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-</body>
+    </body>
 </html>
