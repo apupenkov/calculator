@@ -1,9 +1,10 @@
 package ru.math.spb.calculator.math.operation;
 
 import org.springframework.stereotype.Component;
+import ru.math.spb.calculator.math.exception.IncorrectExpressionException;
+import ru.math.spb.calculator.math.operator.Operator;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,8 +29,10 @@ public class Separation {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IncorrectExpressionException {
         Separation separation = new Separation();
-        System.out.println(separation.separateOnNumberAndOperator("(45.6+(78.99-89.76)((67-98)*78))(78-89)"));
+        Operator operator = new Operator();
+        Operation operation = new Operation(separation, operator);
+        System.out.println(operation.getPolishReverseNotationArray("(45.6+(78.99-89.76)((67-98)*78))(78-89)"));
     }
 }
