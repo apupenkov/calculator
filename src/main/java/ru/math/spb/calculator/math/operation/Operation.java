@@ -73,7 +73,11 @@ public class Operation {
                 }
             }
         }
-        stackOperators.stream().forEach(el -> reversNotation.add(Objects.requireNonNull(stackOperators.pollLast())));
+        stackOperators.stream().forEach(el -> {
+            if(!el.equals("(") && !el.equals(")")) {
+                reversNotation.add(Objects.requireNonNull(stackOperators.pollLast()));
+            }
+        });
         for (String el : reversNotation) {
             if (el.equals("(") || el.equals(")")) {
                 throw new IncorrectExpressionException("Некорректно составленное выражение");
