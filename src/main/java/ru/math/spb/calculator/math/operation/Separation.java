@@ -11,29 +11,25 @@ import java.util.regex.Pattern;
 public class Separation {
 
     ArrayDeque<String> separateOnNumberAndOperator(String str) {
-        ArrayList<String> result = new ArrayList<>();
+        String tempStr = addMultiplyOperatorIfNeed(str);
+        ArrayDeque<String> result = new ArrayDeque<>();
         String patternStr = "((\\d*\\.?\\d+)|([+\\-*/()]))";
         Pattern pattern = Pattern.compile(patternStr);
-        Matcher m = pattern.matcher(str);
+        Matcher m = pattern.matcher(tempStr);
         while(m.find()) {
             result.add(m.group());
         }
-        return addMultiplyOperatorIfNeed(result);
+        return new ArrayDeque<>(result);
     }
 
-    private ArrayDeque<String> addMultiplyOperatorIfNeed(ArrayList<String> arrayDeque) {
-        for (int i = 0; i < arrayDeque.size(); i++) {
-            if((i-1) >= 0 && (i+1) < arrayDeque.size()) {
-                if (arrayDeque.get(i).equals("(")
-                        && Pattern.compile("\\d+(\\.\\d+)?").matcher(arrayDeque.get(i-1)).find()) {
-                    arrayDeque.add(i, "*");
-                }
-                else if(arrayDeque.get(i).equals(")")
-                        && Pattern.compile("\\d+(\\.\\d+)?").matcher(arrayDeque.get(i+1)).find()) {
-                    arrayDeque.add(i+1, "*");
-                }
-            }
-        }
-        return new ArrayDeque<>(arrayDeque);
+    private String addMultiplyOperatorIfNeed(String str) {
+        return str.replaceAll("([^(+-/*])\\(", "$1*(")
+                .replaceAll("\\)([^+-/*)])", ")*$1");
+    }
+
+
+    public static void main(String[] args) {
+        Separation separation = new Separation();
+        System.out.println(separation.separateOnNumberAndOperator("(45.6+(78.99-89.76)((67-98)*78))(78-89)"));
     }
 }
